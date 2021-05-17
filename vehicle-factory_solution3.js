@@ -3,76 +3,80 @@
 
 class Factory {
 
-    #productType;
-    #localCreatedProducts;
-    #localCreatedProductsCount;
-    static #globalCreatedProductsCount;
-    static #globalCreatedProducts;
+    // static variables
+    static #globalProductsCount;
+    static #globalProductList;
 
-    constructor(productType) {
-        this.#productType = productType;
-        this.#localCreatedProductsCount = 0;
-        this.#localCreatedProducts = [];
-        Factory.#globalCreatedProductsCount = [];
-        Factory.#globalCreatedProducts = [];
+    // instance variables
+    #productType;
+    #localProductList;
+    #localProductCount;
+
+    // static methods
+    static getGlobalProductCounter() {
+        return Factory.#globalProductsCount;
+    }
+    static getGlobalCreatedProducts() {
+        return Factory.#globalProductList;
     }
 
+    // constructor(s) (in JS only 1 constructor method allowed)
+    constructor(productType) {
+        this.#productType = productType;
+        this.#localProductCount = 0;
+        this.#localProductList = [];
+        Factory.#globalProductsCount = [];
+        Factory.#globalProductList = [];
+    }
+
+    // getters and setters
     getProductType() {
         return this.#productType;
     }
-
     setProductType(productType) {
         this.#productType = productType;
     }
-
-    getProductCounter() {
-        return this.#localCreatedProductsCount;
-    }
-
     getLocalProductCounter() {
-        return this.#localCreatedProductsCount;
+        return this.#localProductCount;
     }
-
-    static getGlobalProductCounter() {
-        return Factory.#globalCreatedProductsCount;
-    }
-
     getLocalCreatedProducts() {
-        return this.#localCreatedProducts;
+        return this.#localProductList;
     }
 
-    static getGlobalCreatedProducts() {
-        return Factory.#globalCreatedProducts;
-    }
-
+    // core method(s)
     createProduct(make, model) {
-        const localProductID = this.#localCreatedProductsCount++;
-        const globalProductId = Factory.#globalCreatedProductsCount++;
+        const localProductID = this.#localProductCount++;
+        const globalProductId = Factory.#globalProductsCount++;
         const productType = this.#productType;
         const newProduct = { productType, globalProductId, localProductID, make, model };
-        this.#localCreatedProducts.push(newProduct);
-        Factory.#globalCreatedProducts.push(newProduct);
+        this.#localProductList.push(newProduct);
+        Factory.#globalProductList.push(newProduct);
         return newProduct;
     }
 }
 
+// Test Factory-class
+
+// create factories
 const bikeFactory = new Factory('Bike');
 const carFactory = new Factory('Car');
 
+// create products
 bikeFactory.createProduct('Mosadegh Corp.', 'Model 1');
-bikeFactory.createProduct('Peltonen Corp.', 'Model 2');
 carFactory.createProduct('Mitsubishi', 'Colt');
-bikeFactory.createProduct('Bike Company', 'Bikules 1000');
+bikeFactory.createProduct('Peltonen Corp.', 'Model 2');
 
+// show all products that have been produced in factories (bike and car)
+console.log(`All factories together have produced ${Factory.getGlobalProductCounter()} products. See following list:`);
+console.log(Factory.getGlobalCreatedProducts());
 
+// show products from bikeFactory
 console.log(`bikeFactory produced ${bikeFactory.getLocalProductCounter()} products. See following list:`);
 console.log(bikeFactory.getLocalCreatedProducts());
 
+// show products from carFactory
 console.log(`carFactory produced ${bikeFactory.getLocalProductCounter()} products. See following list:`);
 console.log(carFactory.getLocalCreatedProducts());
-
-console.log(`Factories have together produced ${Factory.getGlobalProductCounter()} products. See following list:`);
-console.log(Factory.getGlobalCreatedProducts());
 
 
 
