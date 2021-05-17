@@ -1,5 +1,5 @@
 // Solution 1
-// @Milad: For Solutions 2 and 3, see vehicle-factory-function2.js and solution3_vehicle-factory.js :-)
+// @Milad: For Solutions 2 and 3, see vehicle-factory_solution2.js and vehicle-factory_solution3.js :-)
 "use strict"
 
 function createFactory(type) {
