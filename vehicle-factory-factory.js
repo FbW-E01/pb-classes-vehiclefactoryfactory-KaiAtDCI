@@ -16,15 +16,17 @@ const boatFactory = createFactory('Boat');
 const blimpFactory = createFactory('Blimp');
 const trainFactory = createFactory('Train');
 
-const vehicles = [];
-vehicles.push(new bicycleFactory('Bicycle Factory', 'Model X'));
-vehicles.push(new bicycleFactory('Bike Company', 'Low Bike'));
-vehicles.push(new carFactory('Car Factory', 'Car Model 1'));
-vehicles.push(new boatFactory('Steel Boats', 'B 1000'));
-vehicles.push(new blimpFactory('Blimps Corp', 'Blimp 1'));
-vehicles.push(new trainFactory('Train Factory', 'Train 1'));
+const products = [
+    new bicycleFactory('Bicycle Factory', 'Model X'),
+    new bicycleFactory('Bike Company', 'Low Bike'),
+    new carFactory('Car Factory', 'Car Model 1'),
+    new boatFactory('Steel Boats', 'B 1000'),
+    new blimpFactory('Blimps Corp', 'Blimp 1'),
+    new trainFactory('Train Factory', 'Train 1'),
+];
 
-vehicles.forEach(vehicle => console.log(vehicle));
+products.forEach(product => console.log(product));
+
 console.log(typeof bicycleFactory); // => returns function because it is a function
-console.log(typeof vehicles[0]);    // => returns object because the returned constructor
+console.log(typeof products[0]);    // => returns object because the returned constructor
                                     // function of createFactory creates objects

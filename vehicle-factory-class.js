@@ -3,37 +3,47 @@
 
 class Factory {
 
-    #productType;
+    #productType = 'unset';
+    #productCounter = 0;
 
     constructor(productType) {
         this.#productType = productType;
     }
+
     getProductType() {
         return this.#productType;
     }
+
     setProductType(productType) {
         this.#productType = productType;
     }
+
+    getProductCounter() {
+        return this.#productCounter;
+    }
+
     createProduct(make, model) {
         const productType = this.#productType;
+        this.#productCounter++;
         return {
             productType, make, model
         }
     }
+
 }
 
 const bikeFactory = new Factory('Bike');
 const carFactory = new Factory('Car');
 
-const products = [];
 const bike1 = bikeFactory.createProduct('Bike Corp.', 'Model 1');
 const bike2 = bikeFactory.createProduct('Bike Corp.', 'Model 2');
 const car = carFactory.createProduct('Mitsubishi', 'Colt');
+const products = [];
 
 products.push(bike1, bike2, car);
 console.log(products);
-
 console.log(typeof Factory);        // => function ??? Seems as if this is how JS handles classes internally?!
+
 console.log(typeof bikeFactory);    // => object
 console.log(typeof products[0]);    // => object
 
@@ -47,7 +57,8 @@ console.log (bikeFactory.getProductType());
 // console.log(bikeFactory.#productType);  // => SyntaxError: Private field '#productType' must
                                            //    be declared in an enclosing class
 
-
+// Check if productCounter works
+console.log(bikeFactory.getProductCounter());
 
 
 
