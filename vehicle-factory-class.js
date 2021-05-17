@@ -4,12 +4,17 @@
 class Factory {
 
     #productType;
-    #productCounter;
-    static #totalProductCounter = 0;
+    #localCreatedProducts;
+    #localCreatedProductsCount;
+    static #globalCreatedProductsCount;
+    static #globalCreatedProducts;
 
     constructor(productType) {
         this.#productType = productType;
-        this.#productCounter = 0;
+        this.#localCreatedProductsCount = 0;
+        this.#localCreatedProducts = [];
+        Factory.#globalCreatedProductsCount = [];
+        Factory.#globalCreatedProducts = [];
     }
 
     getProductType() {
@@ -21,60 +26,53 @@ class Factory {
     }
 
     getProductCounter() {
-        return this.#productCounter;
+        return this.#localCreatedProductsCount;
     }
 
-    static getTotalProductCounter() {
-        return Factory.#totalProductCounter;
+    getLocalProductCounter() {
+        return this.#localCreatedProductsCount;
+    }
+
+    static getGlobalProductCounter() {
+        return Factory.#globalCreatedProductsCount;
+    }
+
+    getLocalCreatedProducts() {
+        return this.#localCreatedProducts;
+    }
+
+    static getGlobalCreatedProducts() {
+        return Factory.#globalCreatedProducts;
     }
 
     createProduct(make, model) {
+        const localProductID = this.#localCreatedProductsCount++;
+        const globalProductId = Factory.#globalCreatedProductsCount++;
         const productType = this.#productType;
-        Factory.#totalProductCounter++;
-        this.#productCounter++;
-        return {
-            productType, make, model
-        }
+        const newProduct = { productType, globalProductId, localProductID, make, model };
+        this.#localCreatedProducts.push(newProduct);
+        Factory.#globalCreatedProducts.push(newProduct);
+        return newProduct;
     }
 }
 
 const bikeFactory = new Factory('Bike');
 const carFactory = new Factory('Car');
 
-const bike1 = bikeFactory.createProduct('Bike Corp.', 'Model 1');
-const bike2 = bikeFactory.createProduct('Bike Corp.', 'Model 2');
-const car = carFactory.createProduct('Mitsubishi', 'Colt');
-const products = [];
-
-products.push(bike1, bike2, car);
-console.log(products);
-console.log(typeof Factory);        // => function, "Seems as if this is how JS handles classes internally?!"
-
-console.log(typeof bikeFactory);    // => object
-console.log(typeof products[0]);    // => object
-
-// Checking if getter and setter function work
-console.log (bikeFactory.getProductType());
-bikeFactory.setProductType('Bicycle');
-console.log (bikeFactory.getProductType());
-
-// Checking if access to private variable is prevented
-// console.log(bikeFactory.productType);   // => undefined
-// console.log(bikeFactory.#productType);  // => SyntaxError: Private field '#productType' must
-                                           //    be declared in an enclosing class
-
-// Check if productCounter works
-console.log(bikeFactory.getProductCounter());   // => 2, correct!
-
-// Check if static totalProductCounter works
-console.log(Factory.getTotalProductCounter());  // => 3, correct! 2 bikes and one car were produced in all factories
-
-// Check if totalProductCounter is private
-// console.log(Factory.#totalProductCounter); // => SyntaxError: Private field '#totalProductCounter'
-                                              // must be declared in an enclosing class
+bikeFactory.createProduct('Mosadegh Corp.', 'Model 1');
+bikeFactory.createProduct('Peltonen Corp.', 'Model 2');
+carFactory.createProduct('Mitsubishi', 'Colt');
+bikeFactory.createProduct('Bike Company', 'Bikules 1000');
 
 
+console.log(`bikeFactory produced ${bikeFactory.getLocalProductCounter()} products. See following list:`);
+console.log(bikeFactory.getLocalCreatedProducts());
 
+console.log(`carFactory produced ${bikeFactory.getLocalProductCounter()} products. See following list:`);
+console.log(carFactory.getLocalCreatedProducts());
+
+console.log(`Factories have together produced ${Factory.getGlobalProductCounter()} products. See following list:`);
+console.log(Factory.getGlobalCreatedProducts());
 
 
 
