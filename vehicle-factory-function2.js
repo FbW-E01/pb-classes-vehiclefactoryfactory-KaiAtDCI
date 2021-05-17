@@ -1,5 +1,5 @@
-"use strict"
 // Solution 2
+"use strict"
 
 function Factory(type) {
     this.type = type;

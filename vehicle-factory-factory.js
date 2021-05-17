@@ -1,6 +1,6 @@
-"use strict"
 // Solution 1
-// @Milad: For "Solutions 2", see vehicle-factory-function2.js
+// @Milad: For Solutions 2 and 3, see vehicle-factory-function2.js and vehicle-factory-class.js :-)
+"use strict"
 
 function createFactory(type) {
     return function Vehicle(make, model) {
@@ -25,6 +25,6 @@ vehicles.push(new blimpFactory('Blimps Corp', 'Blimp 1'));
 vehicles.push(new trainFactory('Train Factory', 'Train 1'));
 
 vehicles.forEach(vehicle => console.log(vehicle));
-console.log(typeof bicycleFactory);     // returns function because it is a function
-console.log(typeof vehicles[0]);    // returns object because the returned constructor
+console.log(typeof bicycleFactory); // => returns function because it is a function
+console.log(typeof vehicles[0]);    // => returns object because the returned constructor
                                     // function of createFactory creates objects
